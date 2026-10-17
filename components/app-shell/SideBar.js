@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Club,
   ChevronUp,
@@ -71,6 +71,10 @@ export default function SideBar() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('galaxy-games')
   const [expanded, setExpanded] = useState({ casino: true, support: true })
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--sidebar-w', collapsed ? '84px' : '18rem')
+  }, [collapsed])
 
   const toggleGroup = (id) => setExpanded((prev) => ({ ...prev, [id]: !prev[id] }))
   const closeDrawer = () => setOpen(false)

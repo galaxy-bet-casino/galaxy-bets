@@ -1,18 +1,41 @@
 import React from 'react'
 import { LogIn, UserPlus, ShieldCheck, MoonStar, Coins, Sparkles } from 'lucide-react'
 
-const SEGMENTS = 12
+const ROWS = 6
+const SPACING = 28
+const TOP = 72
+const ROW_GAP = 38
+const CYCLE = 4.8
+const MULTIPLIERS = ['10x', '3x', '1.5x', '0.5x', '1.5x', '3x', '10x']
 
-const polar = (r, deg) => {
-  const a = ((deg - 90) * Math.PI) / 180
-  return [200 + r * Math.cos(a), 200 + r * Math.sin(a)]
+const DROPS = [
+  { dirs: [1, 1, -1, 1, 1, 1], begin: 0 },
+  { dirs: [-1, -1, -1, 1, -1, -1], begin: 1.6 },
+  { dirs: [1, -1, -1, 1, 1, -1], begin: 3.2 },
+]
+
+const buildDrop = (dirs) => {
+  let offset = 0
+  let d = `M200,48 L200,${TOP - 11}`
+  dirs.forEach((dir, r) => {
+    const x1 = 200 + offset
+    const y1 = TOP + r * ROW_GAP - 11
+    offset += dir * (SPACING / 2)
+    const x2 = 200 + offset
+    const y2 = r === ROWS - 1 ? 302 : TOP + (r + 1) * ROW_GAP - 11
+    d += ` Q${(x1 + x2) / 2},${y1 - 20} ${x2},${y2}`
+  })
+  return { path: d, bucket: Math.round(offset / SPACING) + 3 }
 }
 
-const wedge = (i) => {
-  const step = 360 / SEGMENTS
-  const [x1, y1] = polar(150, i * step)
-  const [x2, y2] = polar(150, (i + 1) * step)
-  return `M200 200 L${x1} ${y1} A150 150 0 0 1 ${x2} ${y2} Z`
+const DROP_PATHS = DROPS.map((drop) => ({ ...drop, ...buildDrop(drop.dirs) }))
+
+const PEGS = []
+for (let r = 0; r < ROWS; r++) {
+  const count = r + 3
+  for (let i = 0; i < count; i++) {
+    PEGS.push({ x: 200 + (i - (count - 1) / 2) * SPACING, y: TOP + r * ROW_GAP, key: `${r}-${i}` })
+  }
 }
 
 const STARS = [
@@ -36,6 +59,11 @@ function CasinoArt() {
           <stop offset="0%" stopColor="#2a2557" />
           <stop offset="100%" stopColor="#070618" />
         </linearGradient>
+        <radialGradient id="gbBall" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stopColor="#fff7cc" />
+          <stop offset="55%" stopColor="#fbbf24" />
+          <stop offset="100%" stopColor="#b45309" />
+        </radialGradient>
       </defs>
 
       {STARS.map(([x, y, r], i) => (
@@ -52,43 +80,100 @@ function CasinoArt() {
 
       <circle cx="200" cy="200" r="195" fill="url(#gbGlow)" className="gb-pulse" />
 
-      <g className="gb-spin" style={{ transformOrigin: '200px 200px' }}>
-        <circle cx="200" cy="200" r="172" fill="url(#gbRim)" stroke="url(#gbGold)" strokeWidth="4" />
-        {Array.from({ length: SEGMENTS }).map((_, i) => (
-          <path
-            key={i}
-            d={wedge(i)}
-            fill={i % 2 === 0 ? '#1a1640' : '#110e2b'}
-            stroke="#fbbf24"
-            strokeWidth="1.5"
-            strokeOpacity="0.7"
-          />
-        ))}
-        {Array.from({ length: SEGMENTS }).map((_, i) => {
-          const [x, y] = polar(118, i * (360 / SEGMENTS) + 360 / SEGMENTS / 2)
-          return (
-            <text
-              key={i}
-              x={x}
-              y={y}
-              fill="#fbbf24"
-              fontSize="16"
-              fontWeight="700"
-              textAnchor="middle"
-              dominantBaseline="middle"
-            >
-              {i + 1}
-            </text>
-          )
-        })}
-        <circle cx="200" cy="200" r="46" fill="#070618" stroke="url(#gbGold)" strokeWidth="3" />
-        <path d="M200 160 L208 192 L240 200 L208 208 L200 240 L192 208 L160 200 L192 192 Z" fill="url(#gbGold)" />
-      </g>
+      <circle cx="200" cy="200" r="172" fill="url(#gbRim)" stroke="url(#gbGold)" strokeWidth="4" />
+      <circle
+        cx="200"
+        cy="200"
+        r="158"
+        fill="none"
+        stroke="#fbbf24"
+        strokeOpacity="0.3"
+        strokeWidth="1.5"
+        strokeDasharray="2 12"
+        strokeLinecap="round"
+        className="gb-spin"
+        style={{ transformOrigin: '200px 200px' }}
+      />
 
-      <g className="gb-spin-rev" style={{ transformOrigin: '200px 200px' }}>
-        <circle cx="200" cy="48" r="9" fill="#ffffff" />
-        <circle cx="197" cy="45" r="3" fill="#ddd6fe" />
-      </g>
+      {PEGS.map((peg) => (
+        <circle key={peg.key} cx={peg.x} cy={peg.y} r="3.5" fill="#cfc9ff" fillOpacity="0.85" />
+      ))}
+
+      {MULTIPLIERS.map((label, k) => {
+        const cx = 200 + (k - 3) * SPACING
+        const edge = k === 0 || k === 6
+        return (
+          <g key={k}>
+            <rect
+              x={cx - 12.5}
+              y="290"
+              width="25"
+              height="28"
+              rx="6"
+              fill={edge ? 'url(#gbGold)' : '#1a1640'}
+              stroke={edge ? '#b45309' : '#2a2557'}
+              strokeWidth="1.5"
+            />
+            <text
+              x={cx}
+              y="308"
+              textAnchor="middle"
+              fontSize="8.5"
+              fontWeight="700"
+              fill={edge ? '#2a1a00' : '#e9e6ff'}
+            >
+              {label}
+            </text>
+          </g>
+        )
+      })}
+
+      {DROP_PATHS.map((drop, i) => (
+        <rect
+          key={`hit-${i}`}
+          className="gb-hit"
+          x={200 + (drop.bucket - 3) * SPACING - 12.5}
+          y="290"
+          width="25"
+          height="28"
+          rx="6"
+          fill="#fde68a"
+          opacity="0"
+        >
+          <animate
+            attributeName="opacity"
+            values="0;0;0.9;0"
+            keyTimes="0;0.72;0.76;1"
+            dur={`${CYCLE}s`}
+            begin={`${drop.begin}s`}
+            repeatCount="indefinite"
+          />
+        </rect>
+      ))}
+
+      {DROP_PATHS.map((drop, i) => (
+        <g key={`ball-${i}`} className="gb-ball" opacity="0">
+          <circle r="9" fill="#fbbf24" fillOpacity="0.28" />
+          <circle r="6" fill="url(#gbBall)" />
+          <animateMotion
+            path={drop.path}
+            dur={`${CYCLE}s`}
+            begin={`${drop.begin}s`}
+            repeatCount="indefinite"
+            calcMode="linear"
+            keyPoints="0;1;1"
+            keyTimes="0;0.72;1"
+          />
+          <animate
+            attributeName="opacity"
+            values="0;1;1;0;0"
+            keyTimes="0;0.03;0.78;0.88;1"
+            dur={`${CYCLE}s`}
+            begin={`${drop.begin}s`}
+            repeatCount="indefinite"
+          />
+        </g>
+      ))}
 
       <g className="gb-float" style={{ transformOrigin: '68px 90px' }}>
         <rect x="40" y="62" width="56" height="56" rx="12" fill="#f8fafc" stroke="#a78bfa" strokeWidth="2" />
@@ -131,7 +216,6 @@ export default function Hero() {
     <section className="@container w-full min-w-0 max-w-full">
       <style>{`
         @keyframes gb-spin { to { transform: rotate(360deg); } }
-        @keyframes gb-spin-rev { to { transform: rotate(-360deg); } }
         @keyframes gb-float { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-14px) rotate(10deg); } }
         @keyframes gb-float-b { 0%,100% { transform: translateY(0) rotate(12deg); } 50% { transform: translateY(12px) rotate(-10deg); } }
         @keyframes gb-card { 0%,100% { transform: translateY(0) rotate(14deg); } 50% { transform: translateY(-10px) rotate(6deg); } }
@@ -139,7 +223,6 @@ export default function Hero() {
         @keyframes gb-pulse { 0%,100% { opacity: 0.55; } 50% { opacity: 1; } }
         @keyframes gb-star { 0%,100% { opacity: 0.15; } 50% { opacity: 1; } }
         .gb-spin { animation: gb-spin 18s linear infinite; }
-        .gb-spin-rev { animation: gb-spin-rev 5s linear infinite; }
         .gb-float { animation: gb-float 5s ease-in-out infinite; }
         .gb-float-b { animation: gb-float-b 6s ease-in-out infinite; }
         .gb-card { animation: gb-card 5.5s ease-in-out infinite; }
@@ -148,7 +231,8 @@ export default function Hero() {
         .gb-pulse { animation: gb-pulse 4s ease-in-out infinite; }
         .gb-star { animation: gb-star 2.6s ease-in-out infinite; }
         @media (prefers-reduced-motion: reduce) {
-          .gb-spin,.gb-spin-rev,.gb-float,.gb-float-b,.gb-card,.gb-coin,.gb-coin-b,.gb-pulse,.gb-star { animation: none; }
+          .gb-spin,.gb-float,.gb-float-b,.gb-card,.gb-coin,.gb-coin-b,.gb-pulse,.gb-star { animation: none; }
+          .gb-ball,.gb-hit { display: none; }
         }
       `}</style>
 

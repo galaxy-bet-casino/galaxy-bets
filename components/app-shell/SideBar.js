@@ -66,7 +66,7 @@ const groups = [
   },
 ]
 
-export default function SideBar() {
+export default function SideBar({ children }) {
   const [collapsed, setCollapsed] = useState(false)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('galaxy-games')
@@ -233,6 +233,14 @@ export default function SideBar() {
           })}
         </nav>
       </aside>
+
+      <div
+        className={`min-w-0 pt-16 transition-[padding-left] duration-300 ${
+          collapsed ? 'lg:pl-[84px]' : 'lg:pl-72'
+        }`}
+      >
+        <div className="p-3 sm:p-5 lg:p-6">{children}</div>
+      </div>
     </>
   )
 }

@@ -31,6 +31,7 @@ import {
   MessageSquare,
   Orbit,
 } from 'lucide-react'
+import Link from 'next/link';
 
 const groups = [
   {
@@ -120,12 +121,16 @@ export default function SideBar({ children }) {
             </button>
 
             <div className="flex items-center gap-1 p-1 rounded-xl bg-[#14112f] border border-white/10">
+            <Link href="/Auth">
               <button className="hidden sm:block px-3 sm:px-4 h-8 sm:h-9 rounded-lg text-sm font-semibold text-white hover:bg-white/10 transition-colors">
                 Login
               </button>
+              </Link>
+              <Link href="/Auth">
               <button className="px-3 sm:px-4 h-8 sm:h-9 rounded-lg text-sm font-bold text-[#2a1a00] bg-gradient-to-b from-amber-300 to-amber-500 hover:from-amber-200 hover:to-amber-400 shadow-[0_2px_0_#b45309] transition-colors">
                 Register
               </button>
+              </Link>
             </div>
 
             <button

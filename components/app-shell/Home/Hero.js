@@ -128,97 +128,93 @@ function CasinoArt() {
 
 export default function Hero() {
   return (
-    <div className="min-w-0 pt-16 transition-[padding-left] duration-300 lg:pl-[var(--sidebar-w,18rem)]">
-      <div className="p-3 sm:p-5 lg:p-6">
-        <section className="@container w-full min-w-0 max-w-full">
-          <style>{`
-            @keyframes gb-spin { to { transform: rotate(360deg); } }
-            @keyframes gb-spin-rev { to { transform: rotate(-360deg); } }
-            @keyframes gb-float { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-14px) rotate(10deg); } }
-            @keyframes gb-float-b { 0%,100% { transform: translateY(0) rotate(12deg); } 50% { transform: translateY(12px) rotate(-10deg); } }
-            @keyframes gb-card { 0%,100% { transform: translateY(0) rotate(14deg); } 50% { transform: translateY(-10px) rotate(6deg); } }
-            @keyframes gb-coin { 0%,100% { transform: scaleX(1) translateY(0); } 50% { transform: scaleX(0.25) translateY(-12px); } }
-            @keyframes gb-pulse { 0%,100% { opacity: 0.55; } 50% { opacity: 1; } }
-            @keyframes gb-star { 0%,100% { opacity: 0.15; } 50% { opacity: 1; } }
-            .gb-spin { animation: gb-spin 18s linear infinite; }
-            .gb-spin-rev { animation: gb-spin-rev 5s linear infinite; }
-            .gb-float { animation: gb-float 5s ease-in-out infinite; }
-            .gb-float-b { animation: gb-float-b 6s ease-in-out infinite; }
-            .gb-card { animation: gb-card 5.5s ease-in-out infinite; }
-            .gb-coin { animation: gb-coin 2.4s ease-in-out infinite; }
-            .gb-coin-b { animation: gb-coin 3s ease-in-out infinite reverse; }
-            .gb-pulse { animation: gb-pulse 4s ease-in-out infinite; }
-            .gb-star { animation: gb-star 2.6s ease-in-out infinite; }
-            @media (prefers-reduced-motion: reduce) {
-              .gb-spin,.gb-spin-rev,.gb-float,.gb-float-b,.gb-card,.gb-coin,.gb-coin-b,.gb-pulse,.gb-star { animation: none; }
-            }
-          `}</style>
+    <section className="@container w-full min-w-0 max-w-full">
+      <style>{`
+        @keyframes gb-spin { to { transform: rotate(360deg); } }
+        @keyframes gb-spin-rev { to { transform: rotate(-360deg); } }
+        @keyframes gb-float { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-14px) rotate(10deg); } }
+        @keyframes gb-float-b { 0%,100% { transform: translateY(0) rotate(12deg); } 50% { transform: translateY(12px) rotate(-10deg); } }
+        @keyframes gb-card { 0%,100% { transform: translateY(0) rotate(14deg); } 50% { transform: translateY(-10px) rotate(6deg); } }
+        @keyframes gb-coin { 0%,100% { transform: scaleX(1) translateY(0); } 50% { transform: scaleX(0.25) translateY(-12px); } }
+        @keyframes gb-pulse { 0%,100% { opacity: 0.55; } 50% { opacity: 1; } }
+        @keyframes gb-star { 0%,100% { opacity: 0.15; } 50% { opacity: 1; } }
+        .gb-spin { animation: gb-spin 18s linear infinite; }
+        .gb-spin-rev { animation: gb-spin-rev 5s linear infinite; }
+        .gb-float { animation: gb-float 5s ease-in-out infinite; }
+        .gb-float-b { animation: gb-float-b 6s ease-in-out infinite; }
+        .gb-card { animation: gb-card 5.5s ease-in-out infinite; }
+        .gb-coin { animation: gb-coin 2.4s ease-in-out infinite; }
+        .gb-coin-b { animation: gb-coin 3s ease-in-out infinite reverse; }
+        .gb-pulse { animation: gb-pulse 4s ease-in-out infinite; }
+        .gb-star { animation: gb-star 2.6s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .gb-spin,.gb-spin-rev,.gb-float,.gb-float-b,.gb-card,.gb-coin,.gb-coin-b,.gb-pulse,.gb-star { animation: none; }
+        }
+      `}</style>
 
-          <div className="relative overflow-hidden rounded-2xl border border-galaxy-border bg-galaxy-surface p-5 @md:p-8 @5xl:p-12">
-            <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-violet-600/25 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-galaxy-gold/10 blur-3xl" />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-galaxy-raised/60 via-transparent to-galaxy-bg/80" />
+      <div className="relative overflow-hidden rounded-2xl border border-galaxy-border bg-galaxy-surface p-5 @md:p-8 @5xl:p-12">
+        <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-violet-600/25 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-galaxy-gold/10 blur-3xl" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-galaxy-raised/60 via-transparent to-galaxy-bg/80" />
 
-            <div className="relative grid items-center gap-8 @3xl:grid-cols-2 @5xl:gap-12">
-              <div className="order-2 min-w-0 text-center @3xl:order-1 @3xl:text-left">
-                <div className="mb-4 flex flex-wrap items-center justify-center gap-2 @3xl:justify-start">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-300">
-                    <MoonStar size={14} />
-                    100% Islamic &amp; Halal
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-galaxy-gold/30 bg-galaxy-gold/10 px-3 py-1 text-xs font-semibold text-galaxy-gold">
-                    <Coins size={14} />
-                    Virtual Coins Only
-                  </span>
-                </div>
+        <div className="relative grid items-center gap-8 @3xl:grid-cols-2 @5xl:gap-12">
+          <div className="order-2 min-w-0 text-center @3xl:order-1 @3xl:text-left">
+            <div className="mb-4 flex flex-wrap items-center justify-center gap-2 @3xl:justify-start">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-300">
+                <MoonStar size={14} />
+                100% Islamic &amp; Halal
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-galaxy-gold/30 bg-galaxy-gold/10 px-3 py-1 text-xs font-semibold text-galaxy-gold">
+                <Coins size={14} />
+                Virtual Coins Only
+              </span>
+            </div>
 
-                <h1 className="text-3xl font-extrabold leading-tight text-white @md:text-4xl @5xl:text-5xl">
-                  Welcome to{' '}
-                  <span className="bg-gradient-to-r from-violet-400 via-fuchsia-300 to-galaxy-gold bg-clip-text text-transparent">
-                    Galaxy Bets
-                  </span>
-                </h1>
+            <h1 className="text-3xl font-extrabold leading-tight text-white @md:text-4xl @5xl:text-5xl">
+              Welcome to{' '}
+              <span className="bg-gradient-to-r from-violet-400 via-fuchsia-300 to-galaxy-gold bg-clip-text text-transparent">
+                Galaxy Bets
+              </span>
+            </h1>
 
-                <p className="mt-4 text-base font-medium text-slate-100 @md:text-lg">
-                  Login or register now to start playing.
-                </p>
+            <p className="mt-4 text-base font-medium text-slate-100 @md:text-lg">
+              Login or register now to start playing.
+            </p>
 
-                <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400 @md:text-base @3xl:mx-0">
-                  Galaxy Bets is a virtual land of casino-style games. Everything runs on free virtual coins,
-                  with no real money, no deposits and no cash prizes. It is built to be 100% Islamic and halal,
-                  so you can enjoy the fun of the games with a clear conscience.
-                </p>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400 @md:text-base @3xl:mx-0">
+              Galaxy Bets is a virtual land of casino-style games. Everything runs on free virtual coins,
+              with no real money, no deposits and no cash prizes. It is built to be 100% Islamic and halal,
+              so you can enjoy the fun of the games with a clear conscience.
+            </p>
 
-                <div className="mt-6 flex flex-col items-stretch gap-3 @md:flex-row @md:justify-center @3xl:justify-start">
-                  <button className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-violet-600/30 transition hover:-translate-y-0.5 hover:from-violet-500 hover:to-fuchsia-500 @md:text-base">
-                    <UserPlus size={18} />
-                    Register
-                  </button>
-                  <button className="inline-flex items-center justify-center gap-2 rounded-xl border border-galaxy-border bg-galaxy-card px-7 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-galaxy-raised @md:text-base">
-                    <LogIn size={18} />
-                    Login
-                  </button>
-                </div>
+            <div className="mt-6 flex flex-col items-stretch gap-3 @md:flex-row @md:justify-center @3xl:justify-start">
+              <button className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-violet-600/30 transition hover:-translate-y-0.5 hover:from-violet-500 hover:to-fuchsia-500 @md:text-base">
+                <UserPlus size={18} />
+                Register
+              </button>
+              <button className="inline-flex items-center justify-center gap-2 rounded-xl border border-galaxy-border bg-galaxy-card px-7 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-galaxy-raised @md:text-base">
+                <LogIn size={18} />
+                Login
+              </button>
+            </div>
 
-                <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-400 @3xl:justify-start">
-                  <span className="inline-flex items-center gap-1.5">
-                    <ShieldCheck size={15} className="text-emerald-400" />
-                    No real-money gambling
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Sparkles size={15} className="text-galaxy-gold" />
-                    Free demo coins for everyone
-                  </span>
-                </div>
-              </div>
-
-              <div className="order-1 mx-auto aspect-square w-full max-w-[240px] @md:max-w-xs @3xl:order-2 @3xl:max-w-md">
-                <CasinoArt />
-              </div>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-400 @3xl:justify-start">
+              <span className="inline-flex items-center gap-1.5">
+                <ShieldCheck size={15} className="text-emerald-400" />
+                No real-money gambling
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Sparkles size={15} className="text-galaxy-gold" />
+                Free demo coins for everyone
+              </span>
             </div>
           </div>
-        </section>
+
+          <div className="order-1 mx-auto aspect-square w-full max-w-[240px] @md:max-w-xs @3xl:order-2 @3xl:max-w-md">
+            <CasinoArt />
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }

@@ -1,1 +1,22 @@
 @import "tailwindcss";
+
+@theme {
+  --color-galaxy-bg: #070618;
+  --color-galaxy-surface: #0a0820;
+  --color-galaxy-card: #110e2b;
+  --color-galaxy-raised: #1a1640;
+  --color-galaxy-border: #2a2557;
+  --color-galaxy-gold: #fbbf24;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--color-galaxy-bg);
+  color: #ffffff;
+  margin: 0;
+}

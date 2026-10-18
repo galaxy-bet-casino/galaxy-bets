@@ -3,7 +3,7 @@ import { User, Mail, Lock, UserPlus } from 'lucide-react'
 import AuthShell, { Field, SubmitButton, ErrorBox } from './AuthShell'
 
 const API_ORIGIN = process.env.NEXT_PUBLIC_API_ORIGIN;
-const REGISTER_URL = `${API_ORIGIN}/api/auth/signin` 
+const REGISTER_URL = `${API_ORIGIN}/auth/signin` 
 
 export default function Register({ onSuccess, onSwitch }) {
   const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' })

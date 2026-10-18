@@ -1,4 +1,4 @@
-import Hero from "@/components/app-shell/Home/Hero";
+import Hero from "@/components/Home/Hero";
 import SideBar from "@/components/app-shell/SideBar";
 import Image from "next/image";
 

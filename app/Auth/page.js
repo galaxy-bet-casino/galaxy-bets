@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Login from '@/components/app-shell/Auth/Login'
-import Register from '@/components/app-shell/Auth/Register'
-import { useAuth } from '@/context/AuthContext'
+import Login from '@/components/Auth/Login'
+import Register from '@/components/Auth/Register'
+import { useAuth } from '../../components/context/AuthContext'
 
 export default function AuthPage() {
   const [mode, setMode] = useState('login')

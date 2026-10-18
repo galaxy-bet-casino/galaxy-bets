@@ -32,6 +32,7 @@ import {
   Orbit,
 } from 'lucide-react'
 import Link from 'next/link';
+import { useAuth } from '../context/AuthContext';
 
 const groups = [
   {
@@ -67,7 +68,10 @@ const groups = [
   },
 ]
 
+const EASE = 'ease-[cubic-bezier(0.32,0.72,0,1)]'
+
 export default function SideBar({ children }) {
+  const { user, loading } = useAuth()
   const [collapsed, setCollapsed] = useState(false)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('galaxy-games')
@@ -80,6 +84,7 @@ export default function SideBar({ children }) {
   const toggleGroup = (id) => setExpanded((prev) => ({ ...prev, [id]: !prev[id] }))
   const closeDrawer = () => setOpen(false)
   const showLabels = !collapsed || open
+  const showAuthButtons = !loading && !user
 
   return (
     <>
@@ -89,7 +94,7 @@ export default function SideBar({ children }) {
             <button
               onClick={() => setOpen(true)}
               aria-label="Open menu"
-              className="lg:hidden grid place-items-center h-11 w-11 shrink-0 rounded-xl bg-[#14112f] border border-white/10 text-white hover:bg-[#1c1840] transition-colors"
+              className="lg:hidden grid place-items-center h-11 w-11 shrink-0 rounded-xl bg-[#14112f] border border-white/10 text-white hover:bg-[#1c1840] active:scale-95 transition-[background-color,transform] duration-200"
             >
               <Menu size={20} />
             </button>
@@ -97,7 +102,7 @@ export default function SideBar({ children }) {
             <button
               onClick={() => setCollapsed((prev) => !prev)}
               aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-              className="hidden lg:grid place-items-center h-11 w-11 shrink-0 rounded-xl bg-[#14112f] border border-white/10 text-white hover:bg-[#1c1840] transition-colors"
+              className="hidden lg:grid place-items-center h-11 w-11 shrink-0 rounded-xl bg-[#14112f] border border-white/10 text-white hover:bg-[#1c1840] active:scale-95 transition-[background-color,transform] duration-200"
             >
               {collapsed ? <PanelLeftOpen size={20} /> : <PanelLeftClose size={20} />}
             </button>
@@ -115,27 +120,29 @@ export default function SideBar({ children }) {
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <button
               aria-label="Search"
-              className="grid place-items-center h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-[#14112f] border border-white/10 text-white hover:bg-[#1c1840] transition-colors"
+              className="grid place-items-center h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-[#14112f] border border-white/10 text-white hover:bg-[#1c1840] active:scale-95 transition-[background-color,transform] duration-200"
             >
               <Search size={18} />
             </button>
 
-            <div className="flex items-center gap-1 p-1 rounded-xl bg-[#14112f] border border-white/10">
-            <Link href="/Auth">
-              <button className="hidden sm:block px-3 sm:px-4 h-8 sm:h-9 rounded-lg text-sm font-semibold text-white hover:bg-white/10 transition-colors">
-                Login
-              </button>
-              </Link>
-              <Link href="/Auth">
-              <button className="px-3 sm:px-4 h-8 sm:h-9 rounded-lg text-sm font-bold text-[#2a1a00] bg-gradient-to-b from-amber-300 to-amber-500 hover:from-amber-200 hover:to-amber-400 shadow-[0_2px_0_#b45309] transition-colors">
-                Register
-              </button>
-              </Link>
-            </div>
+            {showAuthButtons && (
+              <div className="flex items-center gap-1 p-1 rounded-xl bg-[#14112f] border border-white/10">
+                <Link href="/Auth">
+                  <button className="hidden sm:block px-3 sm:px-4 h-8 sm:h-9 rounded-lg text-sm font-semibold text-white hover:bg-white/10 active:scale-95 transition-[background-color,transform] duration-200">
+                    Login
+                  </button>
+                </Link>
+                <Link href="/Auth">
+                  <button className="px-3 sm:px-4 h-8 sm:h-9 rounded-lg text-sm font-bold text-[#2a1a00] bg-gradient-to-b from-amber-300 to-amber-500 hover:from-amber-200 hover:to-amber-400 active:scale-95 shadow-[0_2px_0_#b45309] transition-transform duration-200">
+                    Register
+                  </button>
+                </Link>
+              </div>
+            )}
 
             <button
               aria-label="Chat"
-              className="hidden sm:grid place-items-center h-11 w-11 rounded-xl bg-[#14112f] border border-white/10 text-white hover:bg-[#1c1840] transition-colors"
+              className="hidden sm:grid place-items-center h-11 w-11 rounded-xl bg-[#14112f] border border-white/10 text-white hover:bg-[#1c1840] active:scale-95 transition-[background-color,transform] duration-200"
             >
               <MessageSquare size={18} />
             </button>
@@ -145,13 +152,13 @@ export default function SideBar({ children }) {
 
       <div
         onClick={closeDrawer}
-        className={`lg:hidden fixed inset-0 top-16 z-40 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`lg:hidden fixed inset-0 top-16 z-40 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${EASE} ${
           open ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       />
 
       <aside
-        className={`fixed top-16 bottom-0 left-0 z-40 bg-[#0a0820] border-r border-white/5 overflow-y-auto overflow-x-hidden transition-all duration-300
+        className={`fixed top-16 bottom-0 left-0 z-40 bg-[#0a0820] border-r border-white/5 overflow-y-auto overflow-x-hidden will-change-transform transition-[transform,width] duration-300 ${EASE}
           w-72 max-w-[85vw] ${open ? 'translate-x-0' : '-translate-x-full'}
           lg:translate-x-0 ${collapsed ? 'lg:w-[84px]' : 'lg:w-72'}
           [scrollbar-width:thin] [scrollbar-color:#2a2557_transparent]`}
@@ -160,7 +167,7 @@ export default function SideBar({ children }) {
           <button
             onClick={closeDrawer}
             aria-label="Close menu"
-            className="grid place-items-center h-9 w-9 rounded-lg bg-[#14112f] text-white border border-white/10"
+            className="grid place-items-center h-9 w-9 rounded-lg bg-[#14112f] text-white border border-white/10 active:scale-95 transition-transform duration-200"
           >
             <X size={18} />
           </button>
@@ -176,63 +183,98 @@ export default function SideBar({ children }) {
                 <button
                   onClick={() => showLabels && toggleGroup(group.id)}
                   title={group.label}
-                  className={`w-full flex items-center h-12 bg-[#1a1640] text-white font-bold hover:bg-[#211c4d] transition-colors ${
-                    showLabels ? 'justify-between px-4' : 'justify-center'
+                  className={`w-full flex items-center justify-between h-12 bg-[#1a1640] text-white font-bold hover:bg-[#211c4d] transition-[background-color,padding] duration-300 ${EASE} ${
+                    showLabels ? 'px-4' : 'px-[15px]'
                   }`}
                 >
-                  <span className="flex items-center gap-3">
-                    <GroupIcon size={22} />
-                    {showLabels && <span>{group.label}</span>}
-                  </span>
-                  {showLabels && (
-                    <span className="grid place-items-center h-8 w-8 rounded-lg bg-[#2a2557]">
-                      {expanded[group.id] ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                  <span className="flex items-center min-w-0">
+                    <GroupIcon size={22} className="shrink-0" />
+                    <span
+                      className={`whitespace-nowrap overflow-hidden transition-[max-width,opacity,margin] duration-300 ${EASE} ${
+                        showLabels ? 'ml-3 max-w-[200px] opacity-100' : 'ml-0 max-w-0 opacity-0'
+                      }`}
+                    >
+                      {group.label}
                     </span>
-                  )}
+                  </span>
+                  <span
+                    className={`grid place-items-center h-8 shrink-0 overflow-hidden rounded-lg bg-[#2a2557] transition-[width,opacity] duration-300 ${EASE} ${
+                      showLabels ? 'w-8 opacity-100' : 'w-0 opacity-0'
+                    }`}
+                  >
+                    <ChevronDown
+                      size={18}
+                      className={`transition-transform duration-300 ${EASE} ${
+                        expanded[group.id] ? 'rotate-180' : 'rotate-0'
+                      }`}
+                    />
+                  </span>
                 </button>
 
-                {isOpen && (
-                  <ul className="py-2">
-                    {group.items.map((item) => {
-                      const Icon = item.icon
-                      const isActive = active === item.id
+                <div
+                  aria-hidden={!isOpen}
+                  className={`grid transition-[grid-template-rows] duration-300 ${EASE} ${
+                    isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                  }`}
+                >
+                  <div className="min-h-0 overflow-hidden">
+                    <ul className="py-2">
+                      {group.items.map((item) => {
+                        const Icon = item.icon
+                        const isActive = active === item.id
 
-                      return (
-                        <li key={item.id}>
-                          <a
-                            href={item.href}
-                            title={item.label}
-                            onClick={() => {
-                              setActive(item.id)
-                              closeDrawer()
-                            }}
-                            className={`group relative flex items-center h-11 text-[15px] font-semibold transition-colors ${
-                              showLabels ? 'gap-3 px-4' : 'justify-center'
-                            } ${
-                              isActive
-                                ? 'text-white bg-white/[0.06]'
-                                : 'text-slate-300 hover:text-white hover:bg-white/[0.04]'
-                            }`}
-                          >
-                            {isActive && (
-                              <span className="absolute left-0 top-2 bottom-2 w-1 rounded-r bg-amber-400" />
-                            )}
-                            <Icon
-                              size={22}
-                              className={isActive ? 'text-amber-400' : 'text-[#7d75c9] group-hover:text-amber-300'}
-                            />
-                            {showLabels && <span className="flex-1 truncate">{item.label}</span>}
-                            {showLabels && item.badge && (
-                              <span className="px-2.5 py-1 rounded-md bg-[#2a2557] text-white text-xs font-bold">
-                                {item.badge}
+                        return (
+                          <li key={item.id}>
+                            <a
+                              href={item.href}
+                              title={item.label}
+                              tabIndex={isOpen ? 0 : -1}
+                              onClick={() => {
+                                setActive(item.id)
+                                closeDrawer()
+                              }}
+                              className={`group relative flex items-center h-11 text-[15px] font-semibold transition-[background-color,color,padding] duration-300 ${EASE} ${
+                                showLabels ? 'px-4' : 'px-[15px]'
+                              } ${
+                                isActive
+                                  ? 'text-white bg-white/[0.06]'
+                                  : 'text-slate-300 hover:text-white hover:bg-white/[0.04]'
+                              }`}
+                            >
+                              <span
+                                className={`absolute left-0 top-2 bottom-2 w-1 rounded-r bg-amber-400 transition-[opacity,transform] duration-300 ${EASE} ${
+                                  isActive ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-50'
+                                }`}
+                              />
+                              <Icon
+                                size={22}
+                                className={`shrink-0 transition-colors duration-300 ${
+                                  isActive ? 'text-amber-400' : 'text-[#7d75c9] group-hover:text-amber-300'
+                                }`}
+                              />
+                              <span
+                                className={`truncate whitespace-nowrap transition-[max-width,opacity,margin] duration-300 ${EASE} ${
+                                  showLabels ? 'ml-3 flex-1 max-w-[200px] opacity-100' : 'ml-0 max-w-0 opacity-0'
+                                }`}
+                              >
+                                {item.label}
                               </span>
-                            )}
-                          </a>
-                        </li>
-                      )
-                    })}
-                  </ul>
-                )}
+                              {item.badge && (
+                                <span
+                                  className={`px-2.5 py-1 rounded-md bg-[#2a2557] text-white text-xs font-bold overflow-hidden whitespace-nowrap transition-[max-width,opacity,margin,padding] duration-300 ${EASE} ${
+                                    showLabels ? 'ml-3 max-w-[80px] opacity-100' : 'ml-0 max-w-0 px-0 opacity-0'
+                                  }`}
+                                >
+                                  {item.badge}
+                                </span>
+                              )}
+                            </a>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </div>
+                </div>
               </div>
             )
           })}
@@ -240,7 +282,7 @@ export default function SideBar({ children }) {
       </aside>
 
       <div
-        className={`min-w-0 pt-16 transition-[padding-left] duration-300 ${
+        className={`min-w-0 pt-16 transition-[padding-left] duration-300 ${EASE} ${
           collapsed ? 'lg:pl-[84px]' : 'lg:pl-72'
         }`}
       >

@@ -1,5 +1,9 @@
+"use client";
+
 import React from 'react'
-import { LogIn, UserPlus, ShieldCheck, MoonStar, Coins, Sparkles } from 'lucide-react'
+import Link from 'next/link'
+import { LogIn, UserPlus, ShieldCheck, Sparkles, Gamepad2, Flame } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 
 const ROWS = 6
 const SPACING = 28
@@ -212,6 +216,8 @@ function CasinoArt() {
 }
 
 export default function Hero() {
+  const { user, loading } = useAuth()
+
   return (
     <section className="@container w-full min-w-0 max-w-full">
       <style>{`
@@ -243,17 +249,6 @@ export default function Hero() {
 
         <div className="relative grid items-center gap-8 @3xl:grid-cols-2 @5xl:gap-12">
           <div className="order-2 min-w-0 text-center @3xl:order-1 @3xl:text-left">
-            <div className="mb-4 flex flex-wrap items-center justify-center gap-2 @3xl:justify-start">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-300">
-                <MoonStar size={14} />
-                100% Islamic &amp; Halal
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-galaxy-gold/30 bg-galaxy-gold/10 px-3 py-1 text-xs font-semibold text-galaxy-gold">
-                <Coins size={14} />
-                Virtual Coins Only
-              </span>
-            </div>
-
             <h1 className="text-3xl font-extrabold leading-tight text-white @md:text-4xl @5xl:text-5xl">
               Welcome to{' '}
               <span className="bg-gradient-to-r from-violet-400 via-fuchsia-300 to-galaxy-gold bg-clip-text text-transparent">
@@ -261,8 +256,19 @@ export default function Hero() {
               </span>
             </h1>
 
-            <p className="mt-4 text-base font-medium text-slate-100 @md:text-lg">
-              Login or register now to start playing.
+            <p
+              className={`mt-4 text-base font-medium text-slate-100 transition-opacity duration-300 @md:text-lg ${
+                loading ? 'opacity-0' : 'opacity-100'
+              }`}
+            >
+              {user ? (
+                <>
+                  Welcome back,{' '}
+                  <span className="font-bold text-galaxy-gold">{user.name}</span>. Pick a game and start playing.
+                </>
+              ) : (
+                'Login or register now to start playing.'
+              )}
             </p>
 
             <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400 @md:text-base @3xl:mx-0">
@@ -271,15 +277,40 @@ export default function Hero() {
               so you can enjoy the fun of the games with a clear conscience.
             </p>
 
-            <div className="mt-6 flex flex-col items-stretch gap-3 @md:flex-row @md:justify-center @3xl:justify-start">
-              <button className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-violet-600/30 transition hover:-translate-y-0.5 hover:from-violet-500 hover:to-fuchsia-500 @md:text-base">
-                <UserPlus size={18} />
-                Register
-              </button>
-              <button className="inline-flex items-center justify-center gap-2 rounded-xl border border-galaxy-border bg-galaxy-card px-7 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-galaxy-raised @md:text-base">
-                <LogIn size={18} />
-                Login
-              </button>
+            <div
+              className={`mt-6 flex flex-col items-stretch gap-3 transition-opacity duration-300 @md:flex-row @md:justify-center @3xl:justify-start ${
+                loading ? 'opacity-0' : 'opacity-100'
+              }`}
+            >
+              {user ? (
+                <>
+                  <Link
+                    href="/games"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-violet-600/30 transition hover:-translate-y-0.5 hover:from-violet-500 hover:to-fuchsia-500 @md:text-base"
+                  >
+                    <Gamepad2 size={18} />
+                    Play Now
+                  </Link>
+                  <Link
+                    href="/popular"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-galaxy-border bg-galaxy-card px-7 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-galaxy-raised @md:text-base"
+                  >
+                    <Flame size={18} />
+                    Popular Games
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <button className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-violet-600/30 transition hover:-translate-y-0.5 hover:from-violet-500 hover:to-fuchsia-500 @md:text-base">
+                    <UserPlus size={18} />
+                    Register
+                  </button>
+                  <button className="inline-flex items-center justify-center gap-2 rounded-xl border border-galaxy-border bg-galaxy-card px-7 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-galaxy-raised @md:text-base">
+                    <LogIn size={18} />
+                    Login
+                  </button>
+                </>
+              )}
             </div>
 
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-400 @3xl:justify-start">

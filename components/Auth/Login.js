@@ -3,7 +3,7 @@ import { Mail, Lock, LogIn } from 'lucide-react'
 import AuthShell, { Field, SubmitButton, ErrorBox } from './AuthShell'
 
 const API_ORIGIN = process.env.NEXT_PUBLIC_API_ORIGIN;
-const LOGIN_URL = `${API_ORIGIN}/api/auth/login`;
+const LOGIN_URL = `${API_ORIGIN}/auth/login`;
 
 export default function Login({ onSuccess, onSwitch }) {
   const [form, setForm] = useState({ email: '', password: '' })

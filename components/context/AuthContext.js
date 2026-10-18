@@ -3,8 +3,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 const API_ORIGIN = process.env.NEXT_PUBLIC_API_ORIGIN;
-const ME_URL = `${API_ORIGIN}/api/auth/me`
-const LOGOUT_URL = `${API_ORIGIN}/api/auth/logout`
+const ME_URL = `${API_ORIGIN}/auth/me`
+const LOGOUT_URL = `${API_ORIGIN}/auth/logout`
 
 const AuthContext = createContext(null)
 

@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useState } from 'react'
-import { MoonStar, Coins, ShieldCheck, Sparkles, Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react'
+import { ShieldCheck, Sparkles, Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react'
 
 const STARS = [
   [24, 40, 1.6], [86, 150, 1.2], [150, 22, 1.4], [330, 30, 1.8], [380, 150, 1.2],
@@ -179,7 +181,6 @@ export default function AuthShell({ title, highlight, subtitle, children, footer
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-galaxy-raised/60 via-transparent to-galaxy-bg/80" />
 
         <div className="relative grid items-center @3xl:grid-cols-2">
-          {/* Art / brand panel */}
           <div className="hidden flex-col items-center gap-6 p-8 @3xl:flex @5xl:p-12">
             <div className="aspect-square w-full max-w-sm">
               <AuthArt />
@@ -196,19 +197,7 @@ export default function AuthShell({ title, highlight, subtitle, children, footer
             </div>
           </div>
 
-          {/* Form panel */}
-          <div className="min-w-0 p-5 @md:p-8 @5xl:p-12">
-            <div className="ga-rise mb-4 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-300">
-                <MoonStar size={14} />
-                100% Islamic &amp; Halal
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-galaxy-gold/30 bg-galaxy-gold/10 px-3 py-1 text-xs font-semibold text-galaxy-gold">
-                <Coins size={14} />
-                Virtual Coins Only
-              </span>
-            </div>
-
+          <div className="min-w-0 p-6 @md:p-10 @5xl:p-12">
             <h1 className="ga-rise text-3xl font-extrabold leading-tight text-white @md:text-4xl" style={{ animationDelay: '80ms' }}>
               {title}{' '}
               <span className="bg-gradient-to-r from-violet-400 via-fuchsia-300 to-galaxy-gold bg-clip-text text-transparent">
